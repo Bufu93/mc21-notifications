@@ -30,7 +30,7 @@ const notifyUser = async (notificationText = 'Медицинский центр 
 
 function App() {
 	const [isLoading, setIsLoading] = useState(false);
-	const [openLines, setOpenLines] = useState([]);
+	const [data, setData] = useState({});
 	const [line, setLine] = useState(null);
 	const [userResponded, setUserResponded] = useState(false);
 	const enableNotificationsAndClose = async () => {
@@ -47,15 +47,17 @@ function App() {
 	};
 
 	const socketResponse = (lines) => {
-		// Process the received message
-
-		const parcedData = JSON.parse(lines.data);
-		console.log(parcedData);
-		if (parcedData && parcedData.type === 'notification' && parcedData.notification) {
-			setIsLoading(false);
-			// setOpenLines(parcedData.lines);
-		}
+		const parsedData = JSON.parse(lines.data);
+		console.log(parsedData);
+		setData((prev) => ({
+			...prev,
+			notification: parsedData.type === 'notification' ? parsedData.notification : prev.notification,
+			counters: parsedData.type === 'counters' ? parsedData.counters : prev.counters,
+			openLines: parsedData.type === 'openLines' ? parsedData.lines : prev.openLines,
+		}));
 	};
+
+	console.log({ data });
 
 	const getNotification = () => {
 		console.log('getNotification');
@@ -87,7 +89,7 @@ function App() {
 		if (socketService.isConnected) {
 			getNotification();
 		}
-	}, [socketService.isConnected]);
+	}, [socketService?.isConnected]);
 
 	return (
 		<div>
@@ -105,7 +107,7 @@ function App() {
 			) : (
 				<div>You have disabled notifications</div>
 			)}
-			<button onClick={getNotification}>Get notification</button>
+			{isLoading ? <List data={data} /> : <p>Loading...</p>}
 		</div>
 	);
 }
