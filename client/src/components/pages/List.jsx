@@ -5,12 +5,12 @@ function List({ data }) {
 	return (
 		<StyledWrapper>
 			<StyledList>
-				{data?.openLines.map((item) => {
+				{data?.openLines?.map((item) => {
 					return <li key={item.id}>{item.name}</li>;
 				})}
 			</StyledList>
 			<StyledList>
-				{data?.counters.map((item) => {
+				{data?.counters?.map((item) => {
 					return (
 						<li key={item.id}>
 							{item.key}
@@ -20,7 +20,7 @@ function List({ data }) {
 				})}
 			</StyledList>
 			<StyledList>
-				{data.notification && (
+				{data?.notification && (
 					<>
 						<li>createdAt:{data.notification.createdAt}</li>
 						<li>delivered:{data.notification.delivered}</li>
