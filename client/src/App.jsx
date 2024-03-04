@@ -10,10 +10,6 @@ import Notifications from './components/Notifications/Notifications';
 
 const sessionkey = 'tgj6s47vB1iexxCCAmDmP4fO';
 
-
-
-
-
 function App() {
 	const [isLoading, setIsLoading] = useState(false);
 	const [data, setData] = useState({});
@@ -44,23 +40,23 @@ function App() {
 		});
 	};
 
-	// useEffect(() => {
-	// 	const initializeSocket = async () => {
-	// 		setIsLoading(true);
-	// 		const socketUrl = await JoinChat(sessionkey)().catch((e) => {
-	// 			console.log(e);
-	// 			setIsLoading(false);
-	// 		});
-	// 		if (socketUrl) {
-	// 			socketService.initializeSocket(socketUrl);
-	// 		}
-	// 		recorder();
-	// 	};
+	useEffect(() => {
+		const initializeSocket = async () => {
+			setIsLoading(true);
+			const socketUrl = await JoinChat(sessionkey)().catch((e) => {
+				console.log(e);
+				setIsLoading(false);
+			});
+			if (socketUrl) {
+				socketService.initializeSocket(socketUrl);
+			}
+			recorder();
+		};
 
-	// 	initializeSocket();
+		initializeSocket();
 
-	// 	// Invoke the JoinChat function and log the result
-	// }, []);
+		// Invoke the JoinChat function and log the result
+	}, []);
 
 	useEffect(() => {
 		if (socketService.isConnected) {
@@ -89,6 +85,5 @@ function App() {
 		</div>
 	);
 }
-
 
 export default App;

@@ -52,7 +52,7 @@ function Notifications() {
 	const [enabledNotify, setEnabledNotify] = useState(false);
 
 	const enableNotificationsAndClose = async () => {
-		notifyUser(undefined, options).then((p) => {
+		await notifyUser(undefined, options).then((p) => {
 			if (p === 'granted') {
 				setIsBrowserPush(true);
 				console.log('Notification enabled');
@@ -85,10 +85,10 @@ function Notifications() {
 		}
 	};
 
-	const addNotification = () => {
+	const addNotification = async() => {
 		if (enabledNotify) {
 			if (isBrowserPush) {
-				notifyUser(undefined, options);
+				await notifyUser(undefined, options);
 			} else {
 				toast(
 					() =>
